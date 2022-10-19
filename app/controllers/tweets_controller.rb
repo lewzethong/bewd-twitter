@@ -1,5 +1,4 @@
 class TweetsController < ApplicationController
-
   def create
     token = cookies.permanent.signed[:twitter_session_token]
     session = Session.find_by(token: token)
@@ -11,10 +10,10 @@ class TweetsController < ApplicationController
       if @tweet.save
         render 'tweets/create'
       else
-        render json: {success: false}
+        render json: { success: false }
       end
     else
-      render json: {success: false}
+      render json: { success: false }
     end
   end
 
@@ -26,13 +25,13 @@ class TweetsController < ApplicationController
       user = session.user
       @tweet = Tweet.find_by(id: params[:id])
 
-      if @tweet.user_id == user.id and @tweet.destroy
+      if (@tweet.user_id == user.id) && @tweet.destroy
         render json: { success: true }
       else
         render json: { success: false }
       end
     else
-      render json: {success: false}
+      render json: { success: false }
     end
   end
 
@@ -49,10 +48,9 @@ class TweetsController < ApplicationController
     render 'tweets/index'
   end
 
-  private 
+  private
 
-    def tweet_params
-      params.require(:tweet).permit(:message)
-    end
-
+  def tweet_params
+    params.require(:tweet).permit(:message)
+  end
 end
